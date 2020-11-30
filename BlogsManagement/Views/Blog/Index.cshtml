@@ -1,0 +1,45 @@
+﻿@model BlogsManagement.Models.Blog
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Blogs</h2>
+<div class="col-9">
+    <div class="table">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Tin</th>
+                    <th>Loại</th>
+                    <th>Trạng thái</th>
+                    <th>Vị trí</th>
+                    <th>Ngày public</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach(var item in Model.ShowAllBlogs)
+                {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                    <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Position)</td>
+                    <td>@Html.DisplayFor(modelItem => item.DatePublic)</td>
+                    <td>
+                        <a href="">Edit</a>
+                    </td>
+                    <td>
+                        <a href="" class="btn btn-outline-danger">Delete</a>
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+

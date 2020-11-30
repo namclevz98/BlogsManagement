@@ -1,0 +1,36 @@
+﻿
+@{
+    ViewBag.Title = "InsertBlog";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>New Blogs</h2>
+<div class="container-fluid">
+    <form>
+        <label>Tiêu đề</label>
+        <input class="form-control" type="text" />
+        <label>Mô tả ngắn</label>
+        <input class="form-control" type="text" />
+        <label>Chi tiết</label>
+        <textarea></textarea>
+        <label>Hình ảnh</label>
+        <input type="file" />
+        <label>Loại</label>
+        <select>
+            <option>Thời sự</option>
+        </select>
+        <label>Vị trí</label>
+        <input type="checkbox" />
+        <label>Public</label>
+        <input type="radio" id="Yes" name="public" />
+        <input type="radio" id="No" name="public" />
+
+
+        <label>Date</label>
+        <input type="date" />
+
+        <button type="submit" class="btn btn-success">Submit</button>
+        <button type="submit" class="btn btn-primary">Clear</button>
+    </form>
+</div>
+
