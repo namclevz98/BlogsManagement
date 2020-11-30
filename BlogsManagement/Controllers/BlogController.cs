@@ -23,9 +23,27 @@ namespace BlogsManagement.Controllers
         {
             return View();
         }
+        [HttpGet]
         public ActionResult InsertBlog()
         {
             return View();
+        }
+        [HttpPost]
+        public ActionResult InsertBlog(Blog blog)
+        {
+            if (ModelState.IsValid)
+            {
+                DataAccessLayer objDB = new DataAccessLayer();
+                string result = objDB.InsertBlog(blog);
+                TempData["insertedSuccess"] = result;
+                ModelState.Clear();
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                ModelState.AddModelError("", "Error in saving data");
+                return View();
+            }
         }
         public ActionResult EditBlog()
         {

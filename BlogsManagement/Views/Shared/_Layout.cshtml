@@ -8,26 +8,35 @@
     @Scripts.Render("~/bundles/modernizr")
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        .list-group li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            
+        }
+    </style>
 </head>
 <body>
     <div class="container-fluid">
+
         <div class="row">            
             <div class="col-3">
                 <div class="container-fluid">
                     <div class="col-6 offset-3">
                         <img src="~/Content/logo.png" width="70px" height="50px" />
-                        <ul>
+                        <ul class="list-group">
                             <li>
-                                <a href="#">Link</a>
+                                @Html.ActionLink("List", "Index", "Blog")
                             </li>
                             <li>
-                                <a href="#">New</a>
+                                @Html.ActionLink("New", "InsertBlog", "Blog")
                             </li>
                             <li>
-                                <a href="#">Search</a>
+                                @Html.ActionLink("Search", "SearchBlog", "Blog")
                             </li>
                             <li>
-                                <a href="#">Edit</a>
+                                @Html.ActionLink("Edit", "EditBlog", "Blog")
                             </li>
                         </ul>
                     </div>

@@ -82,7 +82,7 @@ namespace BlogsManagement.DataAccess
         }
         public int DeleteBlog(string blogId)
         {
-            SqlConnection con = new SqlConnection();
+            SqlConnection con = null;
             int result;
             try
             {
@@ -114,24 +114,14 @@ namespace BlogsManagement.DataAccess
         }
         public List<Blog> ShowallBlogs()
         {
-            SqlConnection con = new SqlConnection();
+            SqlConnection con = null;
             DataSet ds = null;
             List<Blog> blogList = null;
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
-                SqlCommand cmd = new SqlCommand("Usq_InsertUpdateDelete_Blog", con);
+                SqlCommand cmd = new SqlCommand("SelectAllBlogs", con);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@Id", null);
-                cmd.Parameters.AddWithValue("@Title", null);
-                cmd.Parameters.AddWithValue("@Des", null);
-                cmd.Parameters.AddWithValue("@Detail", null);
-                cmd.Parameters.AddWithValue("@Category", null);
-                cmd.Parameters.AddWithValue("@IsPublished", null);
-                cmd.Parameters.AddWithValue("@DatePublic", null);
-                cmd.Parameters.AddWithValue("@Position", null);
-                cmd.Parameters.AddWithValue("@Thumb", null);
-                cmd.Parameters.AddWithValue("@Query", showAllBlogs);
                 con.Open();
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -146,7 +136,49 @@ namespace BlogsManagement.DataAccess
                     blog.Des = ds.Tables[0].Rows[i]["Des"].ToString();
                     blog.Detail = ds.Tables[0].Rows[i]["Detail"].ToString();
                     blog.Category = Convert.ToInt32(ds.Tables[0].Rows[i]["Category"].ToString());
-                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["IsPulished"].ToString());
+                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["isPublished"].ToString());
+                    blog.DatePublic = Convert.ToDateTime(ds.Tables[0].Rows[i]["DatePublic"].ToString());
+                    blog.Position = ds.Tables[0].Rows[i]["Position"].ToString();
+                    blog.Thumb = ds.Tables[0].Rows[i]["Thumb"].ToString();
+                    blogList.Add(blog);
+                }
+                return blogList;
+            }
+            catch
+            {
+                return blogList;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+        public List<Blog> SearchBlog(string searchString)
+        {
+            SqlConnection con = null;
+            DataSet ds = null;
+            List<Blog> blogList = null;
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("SearchBlog", con);
+                cmd.Parameters.AddWithValue("@SearchString", searchString);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                ds = new DataSet();
+                da.Fill(ds);
+                blogList = new List<Blog>();
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    Blog blog = new Blog();
+                    blog.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
+                    blog.Title = ds.Tables[0].Rows[i]["Title"].ToString();
+                    blog.Des = ds.Tables[0].Rows[i]["Des"].ToString();
+                    blog.Detail = ds.Tables[0].Rows[i]["Detail"].ToString();
+                    blog.Category = Convert.ToInt32(ds.Tables[0].Rows[i]["Category"].ToString());
+                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["isPublished"].ToString());
                     blog.DatePublic = Convert.ToDateTime(ds.Tables[0].Rows[i]["DatePublic"].ToString());
                     blog.Position = ds.Tables[0].Rows[i]["Position"].ToString();
                     blog.Thumb = ds.Tables[0].Rows[i]["Thumb"].ToString();
@@ -165,7 +197,7 @@ namespace BlogsManagement.DataAccess
         }
         public Blog ShowBlogById(string blogId)
         {
-            SqlConnection con = new SqlConnection();
+            SqlConnection con = null;
             DataSet ds = null;
             Blog blog = null;
             try

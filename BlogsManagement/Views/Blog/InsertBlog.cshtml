@@ -1,4 +1,4 @@
-﻿
+﻿@model BlogsManagement.Models.Blog
 @{
     ViewBag.Title = "InsertBlog";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,31 +6,43 @@
 
 <h2>New Blogs</h2>
 <div class="container-fluid">
-    <form>
+    @using (Html.BeginForm())
+    {
+        @Html.ValidationSummary(true)
+
         <label>Tiêu đề</label>
-        <input class="form-control" type="text" />
+        @Html.TextBoxFor(model => model.Title, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Title)
         <label>Mô tả ngắn</label>
-        <input class="form-control" type="text" />
+        @Html.TextBoxFor(model => model.Des, null, new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Des)
         <label>Chi tiết</label>
-        <textarea></textarea>
+        @Html.TextAreaFor(model => model.Detail)
+        @Html.ValidationMessageFor(model => model.Detail)
         <label>Hình ảnh</label>
-        <input type="file" />
+        @*@Html.TextBoxFor(model => model.Thumb, null, new { @type = "file" })
+        @Html.ValidationMessageFor(model => model.Thumb)*@
         <label>Loại</label>
+        @*@Html.DropDownListFor()*@
+
         <select>
             <option>Thời sự</option>
         </select>
         <label>Vị trí</label>
+        @*@Html.CheckBoxFor()*@
         <input type="checkbox" />
         <label>Public</label>
+        @*@Html.RadioButtonFor()*@
         <input type="radio" id="Yes" name="public" />
         <input type="radio" id="No" name="public" />
 
 
         <label>Date</label>
-        <input type="date" />
+        @Html.TextBoxFor(model => model.DatePublic, null, new { @type = "date" })
+        @Html.ValidationMessageFor(model => model.DatePublic)
 
         <button type="submit" class="btn btn-success">Submit</button>
-        <button type="submit" class="btn btn-primary">Clear</button>
-    </form>
+        @Html.ActionLink("Clear", "InsertBlog", null, new { @class = "btn btn-info" })
+    }
 </div>
 
