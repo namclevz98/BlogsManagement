@@ -27,6 +27,6 @@ namespace BlogsManagement.Models
 
         public string Thumb { get; set; }
 
-        public List<Blog> ShowAllBlogs { get; set; }
+        public List<Blog> ShowallBlogs { get; set; }
     }
 }

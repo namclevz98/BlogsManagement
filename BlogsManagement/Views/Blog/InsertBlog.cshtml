@@ -5,44 +5,81 @@
 }
 
 <h2>New Blogs</h2>
-<div class="container-fluid">
+<div class="col-6">
     @using (Html.BeginForm())
     {
         @Html.ValidationSummary(true)
 
-        <label>Tiêu đề</label>
-        @Html.TextBoxFor(model => model.Title, null, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Title)
-        <label>Mô tả ngắn</label>
-        @Html.TextBoxFor(model => model.Des, null, new { @class = "form-control" })
-        @Html.ValidationMessageFor(model => model.Des)
+        <div class="form-group">
+            <label>Tiêu đề</label>
+            @Html.TextBoxFor(model => model.Title, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Title)
+        </div>
+
+        <div class="form-group">
+            <label>Mô tả ngắn</label>
+            @Html.TextBoxFor(model => model.Des, null, new { @class = "form-control" })
+            @Html.ValidationMessageFor(model => model.Des)
+        </div>
+
         <label>Chi tiết</label>
-        @Html.TextAreaFor(model => model.Detail)
-        @Html.ValidationMessageFor(model => model.Detail)
+        <div class="form-group">
+            @Html.TextAreaFor(model => model.Detail, new { @class = "form-control", @style = "height:150px" })
+            @Html.ValidationMessageFor(model => model.Detail)
+        </div>
+
         <label>Hình ảnh</label>
-        @*@Html.TextBoxFor(model => model.Thumb, null, new { @type = "file" })
-        @Html.ValidationMessageFor(model => model.Thumb)*@
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.Thumb, null, new { @type = "file" })
+            @Html.ValidationMessageFor(model => model.Thumb)
+        </div>
+
         <label>Loại</label>
-        @*@Html.DropDownListFor()*@
+        <div class="form-group">
+            <select>
+                @foreach (var item in ViewBag.showCategories)
+                {
+                    <option name="Category" value="@item.Id">@item.Name</option>
+                }
+            </select>
+        </div>
 
-        <select>
-            <option>Thời sự</option>
-        </select>
-        <label>Vị trí</label>
-        @*@Html.CheckBoxFor()*@
-        <input type="checkbox" />
+        <div class="form-group">
+            <label>Vị trí</label>
+            @*@Html.CheckBoxFor()*@
+            @foreach (var item in ViewBag.showPositions)
+            {
+                <div class="form-group">
+                    <input type="checkbox" value="@item.Id" />
+                    <label>@item.Name</label>
+                </div>
+            }
+        </div>
         <label>Public</label>
-        @*@Html.RadioButtonFor()*@
-        <input type="radio" id="Yes" name="public" />
-        <input type="radio" id="No" name="public" />
+        <div class="form-group">
+
+            @*@Html.RadioButtonFor()*@
+            <input type="radio" id="Yes" name="public" />
+            <label>Yes</label>
+
+        </div>
+        <div class="form-group">
+            <input type="radio" id="No" name="public" />
+            <label>No</label>
+        </div>
+
+        <label>Date Public</label>
+        <div class="form-group">
+            @Html.TextBoxFor(model => model.DatePublic, null, new { @type = "date" })
+            @Html.ValidationMessageFor(model => model.DatePublic)
+        </div>
 
 
-        <label>Date</label>
-        @Html.TextBoxFor(model => model.DatePublic, null, new { @type = "date" })
-        @Html.ValidationMessageFor(model => model.DatePublic)
+        <div class="form-group">
+            <button type="submit" class="btn btn-success">Submit</button>
+            @Html.ActionLink("Clear", "InsertBlog", null, new { @class = "btn btn-info" })
+        </div>
 
-        <button type="submit" class="btn btn-success">Submit</button>
-        @Html.ActionLink("Clear", "InsertBlog", null, new { @class = "btn btn-info" })
     }
 </div>
 

@@ -1,4 +1,4 @@
-﻿
+﻿@model List<BlogsManagement.Models.Blog>
 @{
     ViewBag.Title = "SearchBlog";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -6,27 +6,36 @@
 
 <h2>Search Blogs</h2>
 <div class="col-8">
-    <form>
-        <div class="row">
-            <div class="col-2">
-                <label>Tiêu đề</label>
-            </div>
-            <div class="col-10">
-                <input type="text" class="form-control" placeholder="Tiêu đề" />
-            </div>
+    <div class="row">
+        <div class="col-12">
+            @using (Html.BeginForm("SearchBlog", "Blog", FormMethod.Get))
+            {
+                <div class="form-row">
+                    <div class="col-2">
+                        <label>Tiêu đề</label>
+                    </div>
+                    <div class="col-10">
+                        @Html.TextBox("SearchString", null, new { @class = "form-control", @placeholder = "Tiêu đề", required = "required" })
+                    </div>
+                </div>
+                <br />
+                <button type="submit" class="btn btn-success">Search</button>
+
+
+            }
         </div>
-        <div class="row">
-            <button type="submit" class="btn btn-success">Search</button>
-        </div>
-    </form>
+
+    </div>
+    <br />
+    <h2>List Blogs</h2>
     <div class="table">
         <table class="table table-bordered">
             <thead>
                 <tr>
                     <th>ID</th>
                     <th>Tin</th>
-                    <th>Loại</th>
                     <th>Trạng thái</th>
+                    <th>Loại</th>
                     <th>Vị trí</th>
                     <th>Ngày public</th>
                     <th>Edit</th>
@@ -34,6 +43,55 @@
                 </tr>
             </thead>
             <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @if (item.IsPublished == true)
+                            {
+                                <label>Yes</label>
+                            }
+                            else
+                            {
+                                <label>No</label>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var cat in ViewBag.showCategories)
+                            {
+                                if (cat.Id == item.Category)
+                                {
+                                    <label>@cat.Name</label>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @foreach (var pos in ViewBag.showPositions)
+                            {
+                                if (pos.Id == Convert.ToInt32(item.Position))
+                                {
+                                    <label>@pos.Name</label>
+                                }
+                            }
+                            @*@Html.DisplayFor(modelItem => item.Position)*@
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatePublic)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditBlog", new { id = item.Id })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "DeleteBlog", new { id = item.Id }, new { @class = "btn btn-outline-danger", @onclick = "return confirm('Are sure wants to delete?');" })
+                        </td>
+                    </tr>
+                }
             </tbody>
         </table>
     </div>

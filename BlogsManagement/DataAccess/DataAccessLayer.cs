@@ -11,11 +11,6 @@ namespace BlogsManagement.DataAccess
 {
     public class DataAccessLayer
     {
-        public const int insertBlog = 1;
-        public const int updateBlog = 2;
-        public const int deleteBlog = 3;
-        public const int showAllBlogs = 4;
-        public const int showBlogById = 5;
         public string InsertBlog(Blog blog)
         {
             
@@ -24,7 +19,7 @@ namespace BlogsManagement.DataAccess
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
-                SqlCommand cmd = new SqlCommand("Usq_InsertUpdateDelete_Blog", con);
+                SqlCommand cmd = new SqlCommand("InsertBlog", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Title", blog.Title);
                 cmd.Parameters.AddWithValue("@Des", blog.Des);
@@ -34,7 +29,6 @@ namespace BlogsManagement.DataAccess
                 cmd.Parameters.AddWithValue("@DatePublic", blog.DatePublic);
                 cmd.Parameters.AddWithValue("@Position", blog.Position);
                 cmd.Parameters.AddWithValue("@Thumb", blog.Thumb);
-                cmd.Parameters.AddWithValue("@Query", insertBlog);
                 con.Open();
                 result = cmd.ExecuteScalar().ToString();
                 return result;
@@ -55,7 +49,7 @@ namespace BlogsManagement.DataAccess
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
-                SqlCommand cmd = new SqlCommand("Usq_InsertUpdateDelete_Blog", con);
+                SqlCommand cmd = new SqlCommand("UpdateBlog", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", blog.Id);
                 cmd.Parameters.AddWithValue("@Title", blog.Title);
@@ -66,7 +60,6 @@ namespace BlogsManagement.DataAccess
                 cmd.Parameters.AddWithValue("@DatePublic", blog.DatePublic);
                 cmd.Parameters.AddWithValue("@Position", blog.Position);
                 cmd.Parameters.AddWithValue("@Thumb", blog.Thumb);
-                cmd.Parameters.AddWithValue("@Query", updateBlog);
                 con.Open();
                 result = cmd.ExecuteScalar().ToString();
                 return result;
@@ -80,25 +73,16 @@ namespace BlogsManagement.DataAccess
                 con.Close();
             }
         }
-        public int DeleteBlog(string blogId)
+        public int DeleteBlog(int blogId)
         {
             SqlConnection con = null;
             int result;
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
-                SqlCommand cmd = new SqlCommand("Usq_InsertUpdateDelete_Blog", con);
+                SqlCommand cmd = new SqlCommand("DeleteBlog", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", blogId);
-                cmd.Parameters.AddWithValue("@Title", null);
-                cmd.Parameters.AddWithValue("@Des", null);
-                cmd.Parameters.AddWithValue("@Detail", null);
-                cmd.Parameters.AddWithValue("@Category", null);
-                cmd.Parameters.AddWithValue("@IsPublished", null);
-                cmd.Parameters.AddWithValue("@DatePublic", null);
-                cmd.Parameters.AddWithValue("@Position", null);
-                cmd.Parameters.AddWithValue("@Thumb", null);
-                cmd.Parameters.AddWithValue("@Query", deleteBlog);
                 con.Open();
                 result = cmd.ExecuteNonQuery();
                 return result;
@@ -112,7 +96,7 @@ namespace BlogsManagement.DataAccess
                 con.Close();
             }
         }
-        public List<Blog> ShowallBlogs()
+        public List<Blog> ShowAllBlogs()
         {
             SqlConnection con = null;
             DataSet ds = null;
@@ -195,7 +179,7 @@ namespace BlogsManagement.DataAccess
                 con.Close();
             }
         }
-        public Blog ShowBlogById(string blogId)
+        public Blog ShowBlogById(int blogId)
         {
             SqlConnection con = null;
             DataSet ds = null;
@@ -203,18 +187,9 @@ namespace BlogsManagement.DataAccess
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
-                SqlCommand cmd = new SqlCommand("Usq_InsertUpdateDelete_Blog", con);
+                SqlCommand cmd = new SqlCommand("ShowBlogById", con);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", blogId);
-                cmd.Parameters.AddWithValue("@Title", null);
-                cmd.Parameters.AddWithValue("@Des", null);
-                cmd.Parameters.AddWithValue("@Detail", null);
-                cmd.Parameters.AddWithValue("@Category", null);
-                cmd.Parameters.AddWithValue("@IsPublished", null);
-                cmd.Parameters.AddWithValue("@DatePublic", null);
-                cmd.Parameters.AddWithValue("@Position", null);
-                cmd.Parameters.AddWithValue("@Thumb", null);
-                cmd.Parameters.AddWithValue("@Query", showBlogById);
                 con.Open();
                 SqlDataAdapter da = new SqlDataAdapter();
                 da.SelectCommand = cmd;
@@ -238,6 +213,144 @@ namespace BlogsManagement.DataAccess
             catch
             {
                 return blog;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public List<Category> ShowAllCategories()
+        {
+            SqlConnection con = null;
+            DataSet ds = null;
+            List<Category> categoryList = null;
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("ShowAllCategories", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                ds = new DataSet();
+                da.Fill(ds);
+                categoryList = new List<Category>();
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    Category category = new Category();
+                    category.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
+                    category.Name = ds.Tables[0].Rows[i]["Name"].ToString();
+                    categoryList.Add(category);
+                }
+                return categoryList;
+            }
+            catch
+            {
+                return categoryList;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public Category ShowCategoryByID(int categoryId)
+        {
+            SqlConnection con = null;
+            DataSet ds = null;
+            Category category = null;
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("ShowCategoryById", con);
+                cmd.Parameters.AddWithValue("@Id", categoryId);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                ds = new DataSet();
+                da.Fill(ds);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    category = new Category();
+                    category.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
+                    category.Name = ds.Tables[0].Rows[i]["Name"].ToString();
+                }
+                return category;
+            }
+            catch
+            {
+                return category;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public List<Position> ShowAllPositions()
+        {
+            SqlConnection con = null;
+            DataSet ds = null;
+            List<Position> positionList = null;
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("ShowAllPositions", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                ds = new DataSet();
+                da.Fill(ds);
+                positionList = new List<Position>();
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    Position position = new Position();
+                    position.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
+                    position.Name = ds.Tables[0].Rows[i]["Name"].ToString();
+                    positionList.Add(position);
+                }
+                return positionList;
+            }
+            catch
+            {
+                return positionList;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public Position ShowPositionByID(int positionId)
+        {
+            SqlConnection con = null;
+            DataSet ds = null;
+            Position position = null;
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("ShowPositionById", con);
+                cmd.Parameters.AddWithValue("@Id", positionId);
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                ds = new DataSet();
+                da.Fill(ds);
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    position = new Position();
+                    position.Id = Convert.ToInt32(ds.Tables[0].Rows[i]["Id"].ToString());
+                    position.Name = ds.Tables[0].Rows[i]["Name"].ToString();
+                }
+                return position;
+            }
+            catch
+            {
+                return position;
             }
             finally
             {

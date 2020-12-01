@@ -4,41 +4,42 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
-    @Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")
+    @*@Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")*@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
-        .list-group li {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        ul li {
+            text-align: center;
             
         }
     </style>
 </head>
-<body>
+<body>    
     <div class="container-fluid">
-
         <div class="row">            
             <div class="col-3">
                 <div class="container-fluid">
-                    <div class="col-6 offset-3">
-                        <img src="~/Content/logo.png" width="70px" height="50px" />
-                        <ul class="list-group">
-                            <li>
-                                @Html.ActionLink("List", "Index", "Blog")
-                            </li>
-                            <li>
-                                @Html.ActionLink("New", "InsertBlog", "Blog")
-                            </li>
-                            <li>
-                                @Html.ActionLink("Search", "SearchBlog", "Blog")
-                            </li>
-                            <li>
-                                @Html.ActionLink("Edit", "EditBlog", "Blog")
-                            </li>
-                        </ul>
+                    <div class="col-9 offset-3">
+                        <img src="~/Content/logo.png" width="70" height="50" />
+                        <div class="card">
+                            <ul class="navbar-nav">
+                                <li class="list-group-item nav-item">
+                                    @Html.ActionLink("List", "Index", "Blog")
+                                </li>
+                                <li class="list-group-item nav-item">
+                                    @Html.ActionLink("New", "InsertBlog", "Blog")
+                                </li>
+                                <li class="list-group-item nav-item">
+                                    @Html.ActionLink("Search", "SearchBlog", "Blog")
+                                </li>
+                                <li class="list-group-item nav-item">
+                                    <a href="">Edit</a>
+                                    @*@Html.ActionLink("Edit", "EditBlog", "Blog")*@
+                                </li>
+                            </ul>
+                        </div>
+                        
                     </div>
                 </div>                
             </div>

@@ -13,6 +13,8 @@ namespace BlogsManagement.Models
 
         public string Name { get; set; }
 
+        public List<Category> ShowallCategories { get; set; }
+
 
     }
 }

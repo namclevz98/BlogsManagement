@@ -12,8 +12,8 @@
                 <tr>
                     <th>ID</th>
                     <th>Tin</th>
-                    <th>Loại</th>
                     <th>Trạng thái</th>
+                    <th>Loại</th>
                     <th>Vị trí</th>
                     <th>Ngày public</th>
                     <th>Edit</th>
@@ -21,25 +21,81 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach(var item in Model.ShowAllBlogs)
+                @foreach (var item in Model.ShowallBlogs)
                 {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.Id)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                    <td>@Html.DisplayFor(modelItem => item.IsPublished)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Position)</td>
-                    <td>@Html.DisplayFor(modelItem => item.DatePublic)</td>
-                    <td>
-                        <a href="">Edit</a>
-                    </td>
-                    <td>
-                        <a href="" class="btn btn-outline-danger">Delete</a>
-                    </td>
-                </tr>
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Id)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @if(item.IsPublished == true)
+                            {
+                                <label>Yes</label>
+                            }
+                            else
+                            {
+                                <label>No</label>
+                            }
+                        </td>
+                        <td>
+                            @foreach (var cat in ViewBag.showCategories)
+                            {
+                                if (cat.Id == item.Category)
+                                {
+                                    <label>@cat.Name</label>
+                                }
+                            }
+                        </td>
+                        <td>
+                            @foreach (var pos in ViewBag.showPositions)
+                            {
+                                if (pos.Id == Convert.ToInt32(item.Position))
+                                {
+                                    <label>@pos.Name</label>
+                                }
+                            }
+                            @*@Html.DisplayFor(modelItem => item.Position)*@
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.DatePublic)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Edit", "EditBlog", new { id = item.Id })
+                        </td>
+                        <td>
+                            @Html.ActionLink("Delete", "DeleteBlog", new { id = item.Id }, new { @class = "btn btn-outline-danger", @onclick = "return confirm('Are sure wants to delete?');" })
+                        </td>
+                    </tr>
                 }
             </tbody>
         </table>
     </div>
 </div>
+@if (TempData["insertedSuccess"] != null)
+{
+    <script type="text/javascript">
+
+                alert("Record Is Inserted Successfully");
+    </script>
+
+}
+@if (TempData["updatedSuccess"] != null)
+{
+    <script type="text/javascript">
+
+                alert("Record Is Updated Successfully");
+    </script>
+
+}
+@if (TempData["deletedSuccess"] != null)
+{
+    <script type="text/javascript">
+
+                alert("Record Is Deleted Successfully");
+    </script>
+
+}
 

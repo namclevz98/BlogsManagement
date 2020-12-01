@@ -13,5 +13,7 @@ namespace BlogsManagement.Models
 
         public string Name { get; set; }
 
+        public List<Position> ShowallPositions { get; set; }
+
     }
 }
