@@ -49,9 +49,11 @@ namespace BlogsManagement.Controllers
         [HttpPost]
         public ActionResult InsertBlog(Blog blog)
         {
+            DataAccessLayer objDB = new DataAccessLayer();
+            ViewBag.showCategories = objDB.ShowAllCategories();
+            ViewBag.showPositions = objDB.ShowAllPositions();
             if (ModelState.IsValid)
             {
-                DataAccessLayer objDB = new DataAccessLayer();
                 string result = objDB.InsertBlog(blog);
                 TempData["insertedSuccess"] = result;
                 ModelState.Clear();
@@ -74,9 +76,12 @@ namespace BlogsManagement.Controllers
         [HttpPost]
         public ActionResult EditBlog(Blog blog)
         {
-            if(ModelState.IsValid)
+            DataAccessLayer objDB = new DataAccessLayer();
+            ViewBag.showCategories = objDB.ShowAllCategories();
+            ViewBag.showPositions = objDB.ShowAllPositions();
+
+            if (ModelState.IsValid)
             {
-                DataAccessLayer objDB = new DataAccessLayer();
                 string result = objDB.UpdateBlog(blog);
                 TempData["updatedSuccess"] = result;
                 ModelState.Clear();

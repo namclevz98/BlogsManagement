@@ -36,7 +36,7 @@
 
         <label>Loại</label>
         <div class="form-group">
-            <select>
+            <select name="Category">
                 @foreach (var item in ViewBag.showCategories)
                 {
                     <option name="Category" value="@item.Id">@item.Name</option>
@@ -46,38 +46,45 @@
 
         <div class="form-group">
             <label>Vị trí</label>
-            @*@Html.CheckBoxFor()*@
             @foreach (var item in ViewBag.showPositions)
             {
-                <div class="form-group">
-                    <input type="checkbox" value="@item.Id" />
-                    <label>@item.Name</label>
-                </div>
+                if (item.Id == 1)
+                {
+                    <div class="form-group">
+                        <input type="checkbox" name="Position" value="@item.Id" checked/>
+                        <label>@item.Name</label>
+                    </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                        <input type="checkbox" name="Position" value="@item.Id" />
+                        <label>@item.Name</label>
+                    </div>
+                }
             }
         </div>
         <label>Public</label>
         <div class="form-group">
-
-            @*@Html.RadioButtonFor()*@
-            <input type="radio" id="Yes" name="public" />
+            <input type="radio" id="Yes" name="IsPublished" value="true" checked/>
             <label>Yes</label>
 
         </div>
         <div class="form-group">
-            <input type="radio" id="No" name="public" />
+            <input type="radio" id="No" name="IsPublished" value="false"/>
             <label>No</label>
         </div>
 
         <label>Date Public</label>
         <div class="form-group">
-            @Html.TextBoxFor(model => model.DatePublic, null, new { @type = "date" })
+            @Html.TextBoxFor(model => model.DatePublic, null, new { @type = "date", @Value = System.DateTime.Now.ToString("yyyy-MM-dd") })
             @Html.ValidationMessageFor(model => model.DatePublic)
         </div>
 
 
-        <div class="form-group">
+        <div class="form-group col-6 offset-6">
             <button type="submit" class="btn btn-success">Submit</button>
-            @Html.ActionLink("Clear", "InsertBlog", null, new { @class = "btn btn-info" })
+            @Html.ActionLink("Clear", "InsertBlog", null, new { @class = "btn btn-primary" })
         </div>
 
     }

@@ -20,7 +20,7 @@ namespace BlogsManagement.Models
         public int Category { get; set; }
 
         public bool IsPublished { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
         public DateTime DatePublic { get; set; }
 
         public string Position { get; set; }

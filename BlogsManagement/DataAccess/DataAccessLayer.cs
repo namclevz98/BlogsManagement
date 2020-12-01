@@ -120,7 +120,7 @@ namespace BlogsManagement.DataAccess
                     blog.Des = ds.Tables[0].Rows[i]["Des"].ToString();
                     blog.Detail = ds.Tables[0].Rows[i]["Detail"].ToString();
                     blog.Category = Convert.ToInt32(ds.Tables[0].Rows[i]["Category"].ToString());
-                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["isPublished"].ToString());
+                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["IsPublished"].ToString());
                     blog.DatePublic = Convert.ToDateTime(ds.Tables[0].Rows[i]["DatePublic"].ToString());
                     blog.Position = ds.Tables[0].Rows[i]["Position"].ToString();
                     blog.Thumb = ds.Tables[0].Rows[i]["Thumb"].ToString();
@@ -162,7 +162,7 @@ namespace BlogsManagement.DataAccess
                     blog.Des = ds.Tables[0].Rows[i]["Des"].ToString();
                     blog.Detail = ds.Tables[0].Rows[i]["Detail"].ToString();
                     blog.Category = Convert.ToInt32(ds.Tables[0].Rows[i]["Category"].ToString());
-                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["isPublished"].ToString());
+                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["IsPublished"].ToString());
                     blog.DatePublic = Convert.ToDateTime(ds.Tables[0].Rows[i]["DatePublic"].ToString());
                     blog.Position = ds.Tables[0].Rows[i]["Position"].ToString();
                     blog.Thumb = ds.Tables[0].Rows[i]["Thumb"].ToString();
@@ -203,7 +203,7 @@ namespace BlogsManagement.DataAccess
                     blog.Des = ds.Tables[0].Rows[i]["Des"].ToString();
                     blog.Detail = ds.Tables[0].Rows[i]["Detail"].ToString();
                     blog.Category = Convert.ToInt32(ds.Tables[0].Rows[i]["Category"].ToString());
-                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["IsPulished"].ToString());
+                    blog.IsPublished = Convert.ToBoolean(ds.Tables[0].Rows[i]["IsPublished"].ToString());
                     blog.DatePublic = Convert.ToDateTime(ds.Tables[0].Rows[i]["DatePublic"].ToString());
                     blog.Position = ds.Tables[0].Rows[i]["Position"].ToString();
                     blog.Thumb = ds.Tables[0].Rows[i]["Thumb"].ToString();

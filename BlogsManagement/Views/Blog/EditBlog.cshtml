@@ -36,48 +36,77 @@
 
         <label>Loại</label>
         <div class="form-group">
-            <select>
+            <select name="Category">
                 @foreach (var item in ViewBag.showCategories)
                 {
-                    <option name="Category" value="@item.Id">@item.Name</option>
+                    if (item.Id == Model.Category)
+                    {
+                        <option name="Category" value="@item.Id" selected>@item.Name</option>
+                    }
+                    else
+                    {
+                        <option name="Category" value="@item.Id">@item.Name</option>
+                    }
                 }
             </select>
         </div>
 
         <div class="form-group">
             <label>Vị trí</label>
-            @*@Html.CheckBoxFor()*@
             @foreach (var item in ViewBag.showPositions)
             {
-                <div class="form-group">
-                    <input type="checkbox" value="@item.Id" />
+                if (item.Id == Convert.ToInt32(Model.Position))
+                {
+                    <div class="form-group">
+                    <input type="checkbox" name="Position" value="@item.Id" checked />
                     <label>@item.Name</label>
                 </div>
+                }
+                else
+                {
+                    <div class="form-group">
+                    <input type="checkbox" name="Position" value="@item.Id" />
+                    <label>@item.Name</label>
+                </div>
+                }
+                
             }
         </div>
         <label>Public</label>
-        <div class="form-group">
+        if (Model.IsPublished == true)
+        {
+            <div class="form-group">
+                <input type="radio" id="Yes" name="IsPublished" value="true" checked />
+                <label>Yes</label>
 
-            @*@Html.RadioButtonFor()*@
-            <input type="radio" id="Yes" name="public" />
-            <label>Yes</label>
+            </div>
+            <div class="form-group">
+                <input type="radio" id="No" name="IsPublished" value="false" />
+                <label>No</label>
+            </div>
+        }
+        else
+        {
+            <div class="form-group">
+                <input type="radio" id="Yes" name="IsPublished" value="true" />
+                <label>Yes</label>
 
-        </div>
-        <div class="form-group">
-            <input type="radio" id="No" name="public" />
-            <label>No</label>
-        </div>
-
+            </div>
+            <div class="form-group">
+                <input type="radio" id="No" name="IsPublished" value="false" checked />
+                <label>No</label>
+            </div>
+        }
         <label>Date Public</label>
         <div class="form-group">
-            @Html.TextBoxFor(model => model.DatePublic, null, new { @type = "date" })
+            @*<input type="date" name="DatePublic" value="@Model.DatePublic.ToString("yyyy-MM-dd")" />*@
+            @Html.TextBoxFor(model => model.DatePublic, null, new { @type = "date", @Value = Model.DatePublic.ToString("yyyy-MM-dd") })
             @Html.ValidationMessageFor(model => model.DatePublic)
         </div>
 
-
-        <div class="form-group">
+        <div class="form-group col-6 offset-6">
             <button type="submit" class="btn btn-success">Submit</button>
-            @Html.ActionLink("Clear", "EditBlog", new { id = Model.Id }, new { @class = "btn btn-info" })
+            @Html.ActionLink("Clear", "EditBlog", new { id = Model.Id }, new { @class = "btn btn-primary" })
         </div>
 
     }

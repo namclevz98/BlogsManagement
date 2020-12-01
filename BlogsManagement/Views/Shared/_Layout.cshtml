@@ -5,19 +5,29 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - My ASP.NET Application</title>
     @*@Styles.Render("~/Content/css")
-    @Scripts.Render("~/bundles/modernizr")*@
+        @Scripts.Render("~/bundles/modernizr")*@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <style>
         ul li {
             text-align: center;
-            
         }
+
+        /*.nav-item > a:hover {
+            color: #808080;
+        }
+
+        .navbar-nav > .active {
+            background-color: #808080;
+        }
+        .navbar-nav > .active>a {
+            color: white;
+        }*/
     </style>
 </head>
-<body>    
+<body>
     <div class="container-fluid">
-        <div class="row">            
+        <div class="row">
             <div class="col-3">
                 <div class="container-fluid">
                     <div class="col-9 offset-3">
@@ -34,14 +44,14 @@
                                     @Html.ActionLink("Search", "SearchBlog", "Blog")
                                 </li>
                                 <li class="list-group-item nav-item">
-                                    <a href="">Edit</a>
+                                    <a href="" class="navbar-link">Edit</a>
                                     @*@Html.ActionLink("Edit", "EditBlog", "Blog")*@
                                 </li>
                             </ul>
                         </div>
-                        
+
                     </div>
-                </div>                
+                </div>
             </div>
             <div class="col-9">
                 <h1>Blogs Management</h1>
