@@ -11,11 +11,11 @@ namespace BlogsManagement.DataAccess
 {
     public class DataAccessLayer
     {
-        public string InsertBlog(Blog blog)
+        public int InsertBlog(Blogs blog)
         {
             
             SqlConnection con = null;
-            string result = "";
+            int result = 0;
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
@@ -27,8 +27,33 @@ namespace BlogsManagement.DataAccess
                 cmd.Parameters.AddWithValue("@Category", blog.Category);
                 cmd.Parameters.AddWithValue("@IsPublished", blog.IsPublished);
                 cmd.Parameters.AddWithValue("@DatePublic", blog.DatePublic);
-                cmd.Parameters.AddWithValue("@Position", blog.Position);
+                //cmd.Parameters.AddWithValue("@Position", blog.Position);
                 cmd.Parameters.AddWithValue("@Thumb", blog.Thumb);
+                con.Open();
+                result = Convert.ToInt32(cmd.ExecuteScalar().ToString());
+                return result;
+            }
+            catch
+            {
+                return result;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+        public string UpdatePostiton(int blogId, string position)
+        {
+
+            SqlConnection con = null;
+            string result = "";
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("UpdateBlogPosition", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Id", blogId);
+                cmd.Parameters.AddWithValue("@Position", position);
                 con.Open();
                 result = cmd.ExecuteScalar().ToString();
                 return result;
@@ -42,10 +67,36 @@ namespace BlogsManagement.DataAccess
                 con.Close();
             }
         }
-        public string UpdateBlog(Blog blog)
+        public string InsertPostiton(int blogId, int positionId)
         {
+
             SqlConnection con = null;
             string result = "";
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("InsertBlogPosition", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@BlogId", blogId);
+                cmd.Parameters.AddWithValue("@PositionId", positionId);
+                con.Open();
+                result = cmd.ExecuteScalar().ToString();
+                return result;
+            }
+            catch
+            {
+                return result;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public int UpdateBlog(Blogs blog)
+        {
+            SqlConnection con = null;
+            int result;
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
@@ -58,25 +109,25 @@ namespace BlogsManagement.DataAccess
                 cmd.Parameters.AddWithValue("@Category", blog.Category);
                 cmd.Parameters.AddWithValue("@IsPublished", blog.IsPublished);
                 cmd.Parameters.AddWithValue("@DatePublic", blog.DatePublic);
-                cmd.Parameters.AddWithValue("@Position", blog.Position);
+                //cmd.Parameters.AddWithValue("@Position", blog.Position);
                 cmd.Parameters.AddWithValue("@Thumb", blog.Thumb);
                 con.Open();
-                result = cmd.ExecuteScalar().ToString();
+                result = Convert.ToInt32(cmd.ExecuteScalar().ToString());
                 return result;
             }
             catch
             {
-                return result;
+                return 0;
             }
             finally
             {
                 con.Close();
             }
         }
-        public int DeleteBlog(int blogId)
+        public string DeleteBlog(int blogId)
         {
             SqlConnection con = null;
-            int result;
+            string result = "";
             try
             {
                 con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
@@ -84,12 +135,12 @@ namespace BlogsManagement.DataAccess
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@Id", blogId);
                 con.Open();
-                result = cmd.ExecuteNonQuery();
+                result = cmd.ExecuteScalar().ToString();
                 return result;
             }
             catch
             {
-                return result = 0;
+                return result;
             }
             finally
             {
@@ -351,6 +402,41 @@ namespace BlogsManagement.DataAccess
             catch
             {
                 return position;
+            }
+            finally
+            {
+                con.Close();
+            }
+        }
+
+        public List<string> ShowAllBlogPositions(int blogId)
+        {
+            SqlConnection con = null;
+            DataSet ds = null;
+            List<string> blogPositionList = null;
+            try
+            {
+                con = new SqlConnection(ConfigurationManager.ConnectionStrings["mycon"].ToString());
+                SqlCommand cmd = new SqlCommand("ShowAllBlogPositions", con);
+                cmd.Parameters.AddWithValue("@Id", blogId); 
+                cmd.CommandType = CommandType.StoredProcedure;
+                con.Open();
+                SqlDataAdapter da = new SqlDataAdapter();
+                da.SelectCommand = cmd;
+                ds = new DataSet();
+                da.Fill(ds);
+                blogPositionList = new List<string>();
+                for (int i = 0; i < ds.Tables[0].Rows.Count; i++)
+                {
+                    string BlogPosition = "";
+                    BlogPosition = ds.Tables[0].Rows[i]["Name"].ToString();
+                    blogPositionList.Add(BlogPosition);
+                }
+                return blogPositionList;
+            }
+            catch
+            {
+                return blogPositionList;
             }
             finally
             {

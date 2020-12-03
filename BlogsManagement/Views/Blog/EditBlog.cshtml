@@ -53,46 +53,63 @@
 
         <div class="form-group">
             <label>Vị trí</label>
-            @foreach (var item in ViewBag.showPositions)
+            @{ if (ViewBag.showBlogPositions == null)
+                {
+                    foreach (var pos in ViewBag.showPositions)
+                    {
+                        <div>
+                            <input type="checkbox" name="Position" value="@pos.Name" />
+                            <label>@pos.Name</label>
+                        </div>
+                    }
+                }
+            }
+            @foreach (var pos in ViewBag.showPositions)
             {
-                if (item.Id == Convert.ToInt32(Model.Position))
+                int i = 0;
+                foreach (var blogPos in ViewBag.showBlogPositions)
                 {
-                    <div class="form-group">
-                    <input type="checkbox" name="Position" value="@item.Id" checked />
-                    <label>@item.Name</label>
-                </div>
+
+                    if (pos.Name == blogPos)
+                    {
+                        i = 1;
+                        <div>
+                            <input type="checkbox" name="Position" value="@pos.Name" checked />
+                            <label>@pos.Name</label>
+                        </div>
+                    }
                 }
-                else
+                if (i == 0)
                 {
-                    <div class="form-group">
-                    <input type="checkbox" name="Position" value="@item.Id" />
-                    <label>@item.Name</label>
-                </div>
+                    <div>
+                        <input type="checkbox" name="Position" value="@pos.Name" />
+                        <label>@pos.Name</label>
+                    </div>
                 }
-                
+
             }
         </div>
         <label>Public</label>
         if (Model.IsPublished == true)
         {
-            <div class="form-group">
+            <div>
                 <input type="radio" id="Yes" name="IsPublished" value="true" checked />
                 <label>Yes</label>
 
             </div>
-            <div class="form-group">
+            <div>
                 <input type="radio" id="No" name="IsPublished" value="false" />
                 <label>No</label>
             </div>
         }
         else
         {
-            <div class="form-group">
+            <div>
                 <input type="radio" id="Yes" name="IsPublished" value="true" />
                 <label>Yes</label>
 
             </div>
-            <div class="form-group">
+            <div>
                 <input type="radio" id="No" name="IsPublished" value="false" checked />
                 <label>No</label>
             </div>

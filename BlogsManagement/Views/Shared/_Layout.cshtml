@@ -26,41 +26,50 @@
     </style>
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-3">
-                <div class="container-fluid">
-                    <div class="col-9 offset-3">
-                        <img src="~/Content/logo.png" width="70" height="50" />
-                        <div class="card">
-                            <ul class="navbar-nav">
-                                <li class="list-group-item nav-item">
-                                    @Html.ActionLink("List", "Index", "Blog")
-                                </li>
-                                <li class="list-group-item nav-item">
-                                    @Html.ActionLink("New", "InsertBlog", "Blog")
-                                </li>
-                                <li class="list-group-item nav-item">
-                                    @Html.ActionLink("Search", "SearchBlog", "Blog")
-                                </li>
-                                <li class="list-group-item nav-item">
-                                    <a href="" class="navbar-link">Edit</a>
-                                    @*@Html.ActionLink("Edit", "EditBlog", "Blog")*@
-                                </li>
-                            </ul>
-                        </div>
+    <header class="navbar sticky-top flex-md-nowrap bg-white p-0">
+        <div class="col-1 offset-1">
+            <img class="" src="~/Content/logo.png" height="50" width="70" style="margin:4px;">
+        </div>
+        <div class="col-9 offset-1">
+            <h1 class="navbar-brand col-sm-3 col-md-2 mr-0" style=" font-size: 2.25rem; ">Blog Managements</h1>
+        </div>
+    </header>
+    <section>
+        <div class="container-fluid">           
+            <div class="row">
+                <div class="col-3">
+                    <div class="container-fluid">
+                        <div class="col-9 offset-3">
+                            <div class="card">
+                                <ul class="navbar-nav">
+                                    <li class="list-group-item nav-item">
+                                        @Html.ActionLink("List", "Index", "Blog")
+                                    </li>
+                                    <li class="list-group-item nav-item">
+                                        @Html.ActionLink("New", "InsertBlog", "Blog")
+                                    </li>
+                                    <li class="list-group-item nav-item">
+                                        @Html.ActionLink("Search", "SearchBlog", "Blog")
+                                    </li>
+                                    <li class="list-group-item nav-item">
+                                        <a href="" class="navbar-link">Edit</a>
+                                        @*@Html.ActionLink("Edit", "EditBlog", "Blog")*@
+                                    </li>
+                                </ul>
+                            </div>
 
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="container-fluid">
+                        @RenderBody()
                     </div>
                 </div>
             </div>
-            <div class="col-9">
-                <h1>Blogs Management</h1>
-                <div class="container-fluid">
-                    @RenderBody()
-                </div>
-            </div>
         </div>
-    </div>
+    </section>
+    
     <script src="~/Scripts/jquery-3.4.1.js"></script>
     <script src="~/Scripts/jquery.validate.min.js"></script>
     <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>

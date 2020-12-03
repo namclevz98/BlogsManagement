@@ -72,14 +72,14 @@
                             }
                         </td>
                         <td>
-                            @foreach (var pos in ViewBag.showPositions)
+                            @*@foreach (var pos in ViewBag.showPositions)
                             {
                                 if (pos.Id == Convert.ToInt32(item.Position))
                                 {
                                     <label>@pos.Name</label>
                                 }
-                            }
-                            @*@Html.DisplayFor(modelItem => item.Position)*@
+                            }*@
+                            @Html.DisplayFor(modelItem => item.Position)
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.DatePublic)

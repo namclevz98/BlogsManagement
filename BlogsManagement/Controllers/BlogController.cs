@@ -47,14 +47,45 @@ namespace BlogsManagement.Controllers
             return View();
         }
         [HttpPost]
-        public ActionResult InsertBlog(Blog blog)
+        public ActionResult InsertBlog(Blogs blog)
         {
-            DataAccessLayer objDB = new DataAccessLayer();
+            DataAccessLayer objDB = new DataAccessLayer();            
             ViewBag.showCategories = objDB.ShowAllCategories();
             ViewBag.showPositions = objDB.ShowAllPositions();
+            string position = "";
             if (ModelState.IsValid)
             {
-                string result = objDB.InsertBlog(blog);
+                //if(blog.Position !=null)
+                //{
+                //    foreach (var pos in blog.Position)
+                //    {
+                //        objDB.InsertBlog(blog.Id, pos);
+                //        foreach(var item in objDB.ShowAllPositions())
+                //        {
+                //            if(item.Id == pos)
+                //            {
+                //                position += item.Name + ", ";
+                //            }
+                //        }
+                //    }                           
+                //}    
+                int result = objDB.InsertBlog(blog);
+                if (blog.Position != null)
+                {
+                    foreach (var pos in blog.Position)
+                    {
+                        position += pos + ", ";
+                        foreach(var item in objDB.ShowAllPositions())
+                        {
+                            if(item.Name == pos)
+                            {
+                                objDB.InsertPostiton(result, item.Id);
+                            }    
+                        }    
+                    }
+                }               
+                
+                objDB.UpdatePostiton(result, position.ToString());
                 TempData["insertedSuccess"] = result;
                 ModelState.Clear();
                 return RedirectToAction("Index");
@@ -71,10 +102,11 @@ namespace BlogsManagement.Controllers
             DataAccessLayer objDB = new DataAccessLayer();
             ViewBag.showCategories = objDB.ShowAllCategories();
             ViewBag.showPositions = objDB.ShowAllPositions();
+            ViewBag.showBlogPositions = objDB.ShowAllBlogPositions(Id);
             return View(objDB.ShowBlogById(Id));
         }
         [HttpPost]
-        public ActionResult EditBlog(Blog blog)
+        public ActionResult EditBlog(Blogs blog)
         {
             DataAccessLayer objDB = new DataAccessLayer();
             ViewBag.showCategories = objDB.ShowAllCategories();
@@ -82,7 +114,23 @@ namespace BlogsManagement.Controllers
 
             if (ModelState.IsValid)
             {
-                string result = objDB.UpdateBlog(blog);
+                string position = "";
+                int result = objDB.UpdateBlog(blog);
+                if(blog.Position != null)
+                {
+                    foreach (var pos in blog.Position)
+                    {
+                        position += pos + ", ";
+                        foreach (var item in objDB.ShowAllPositions())
+                        {
+                            if (item.Name == pos)
+                            {
+                                objDB.InsertPostiton(blog.Id, item.Id);
+                            }
+                        }
+                    }
+                }                    
+                objDB.UpdatePostiton(result, position);
                 TempData["updatedSuccess"] = result;
                 ModelState.Clear();
                 return RedirectToAction("Index");
@@ -98,7 +146,7 @@ namespace BlogsManagement.Controllers
         public ActionResult DeleteBlog(int Id)
         {
             DataAccessLayer objDB = new DataAccessLayer();
-            int result = objDB.DeleteBlog(Id);
+            string result = objDB.DeleteBlog(Id);
             TempData["deletedSuccess"] = result;
             ModelState.Clear();
             return RedirectToAction("Index");

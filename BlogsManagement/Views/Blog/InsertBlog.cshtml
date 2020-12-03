@@ -1,4 +1,4 @@
-﻿@model BlogsManagement.Models.Blog
+﻿@model BlogsManagement.Models.Blogs
 @{
     ViewBag.Title = "InsertBlog";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -47,30 +47,30 @@
         <div class="form-group">
             <label>Vị trí</label>
             @foreach (var item in ViewBag.showPositions)
-            {
+            {                
                 if (item.Id == 1)
                 {
-                    <div class="form-group">
-                        <input type="checkbox" name="Position" value="@item.Id" checked/>
+                    <div>
+                        <input type="checkbox" name="Position" value="@item.Name" checked/>
                         <label>@item.Name</label>
                     </div>
                 }
                 else
                 {
-                    <div class="form-group">
-                        <input type="checkbox" name="Position" value="@item.Id" />
+                    <div>
+                        <input type="checkbox" name="Position" value="@item.Name" />
                         <label>@item.Name</label>
                     </div>
                 }
             }
         </div>
         <label>Public</label>
-        <div class="form-group">
+        <div>
             <input type="radio" id="Yes" name="IsPublished" value="true" checked/>
             <label>Yes</label>
 
         </div>
-        <div class="form-group">
+        <div>
             <input type="radio" id="No" name="IsPublished" value="false"/>
             <label>No</label>
         </div>
